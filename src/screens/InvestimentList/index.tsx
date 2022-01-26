@@ -1,6 +1,5 @@
-import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+
 import api from '../../services/api';
 import InvestimentCard from './InvestimentCard';
 
