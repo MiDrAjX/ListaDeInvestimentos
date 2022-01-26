@@ -1,19 +1,40 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
 import api from '../../services/api';
-import InvestimentCard from './InvestimentCard';
+import {InvestimentCard, InvestimentCardProps} from './InvestimentCard';
+
+import uuid from 'react-native-uuid';
 
 import * as S from './styles';
 
+export interface DataListProps extends InvestimentCardProps {
+  id: string;
+}
+
 function InvestimentList() {
-  const [investiments, setInvestiments] = useState([]);
+  const [investiments, setInvestiments] = useState<DataListProps[]>([]);
   const getInvestiments = useCallback(async () => {
     const {data} = await api.get('/v3/ca4ec77d-b941-4477-8a7f-95d4daf7a653');
 
     if (!data) {
       return;
     }
-    setInvestiments(data.response.data.listaInvestimentos);
+    const investimentFormatted: DataListProps[] =
+      data.response.data.listaInvestimentos.map((item: DataListProps) => {
+        const saldoTotal = Number(item.saldoTotal).toLocaleString('pt-br', {
+          minimumFractionDigits: 2,
+        });
+
+        return {
+          id: String(uuid.v4()),
+          nome: item.nome,
+          objetivo: item.objetivo,
+          saldoTotal,
+          indicadorCarencia: item.indicadorCarencia,
+          acoes: item.acoes,
+        };
+      });
+    setInvestiments(investimentFormatted);
   }, []);
 
   const renderHeader = useCallback(() => {
@@ -32,14 +53,12 @@ function InvestimentList() {
   return (
     <S.ContainerList>
       <S.HeaderYellow />
-      <S.FlatListReviews
+      <S.InvestimentFlatList
         data={investiments}
-        keyExtractor={item => String(item.nome)}
+        keyExtractor={item => item.id}
         renderItem={({item}) => <InvestimentCard item={item} />}
         ListHeaderComponent={renderHeader}
         ItemSeparatorComponent={() => <S.Separator />}
-        showsVerticalScrollIndicator={false}
-        onEndReachedThreshold={0.1}
       />
     </S.ContainerList>
   );
