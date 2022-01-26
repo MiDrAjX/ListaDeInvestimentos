@@ -1,11 +1,14 @@
 import styled from 'styled-components/native';
+import {FlatList} from 'react-native';
 
 export const ContainerList = styled.View`
   background-color: #efeff4;
   flex: 1;
   align-items: center;
 `;
-export const FlatListReviews = styled.FlatList`
+export const InvestimentFlatList = styled(FlatList).attrs({
+  showsVerticalScrollIndicator: false,
+})`
   width: 100%;
   align-content: center;
 `;

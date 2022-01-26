@@ -13,7 +13,7 @@ export const Container = styled.TouchableOpacity`
 `;
 
 export const ContainerInfo = styled.View`
-  margin: 3px 0 0 3px;
+  margin: 10px 0 8px 3px;
 `;
 
 export const ContainerSpaceBetween = styled.View`
