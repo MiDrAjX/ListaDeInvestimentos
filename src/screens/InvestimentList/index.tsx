@@ -19,7 +19,7 @@ function InvestimentList() {
   const renderHeader = useCallback(() => {
     return (
       <S.HeaderWrapper>
-        <S.HeaderText>Avaliações da sua empresa</S.HeaderText>
+        <S.HeaderText>INVESTIMENTOS</S.HeaderText>
         <S.HeaderText>R$</S.HeaderText>
       </S.HeaderWrapper>
     );
@@ -31,6 +31,7 @@ function InvestimentList() {
 
   return (
     <S.ContainerList>
+      <S.HeaderYellow />
       <S.FlatListReviews
         data={investiments}
         keyExtractor={item => String(item.nome)}
