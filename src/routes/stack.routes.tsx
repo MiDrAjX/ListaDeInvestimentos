@@ -1,8 +1,16 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import InvestimentList from '../screens/InvestimentList';
+import InvestimentOverview, {
+  InvestimentProps,
+} from '../screens/InvestimentOverview';
 
-const {Navigator, Screen} = createStackNavigator();
+export type RootStackParamList = {
+  List: undefined;
+  Overview: InvestimentProps;
+};
+
+const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
 
 export function AppRoutes() {
   return (
@@ -18,7 +26,8 @@ export function AppRoutes() {
           alignSelf: 'center',
         },
       }}>
-      <Screen name="Home" component={InvestimentList} />
+      <Screen name="List" component={InvestimentList} />
+      <Screen name="Overview" component={InvestimentOverview} />
     </Navigator>
   );
 }
