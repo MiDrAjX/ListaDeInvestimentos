@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useCallback} from 'react';
+
+import {useNavigation} from '@react-navigation/core';
+
 import * as S from './styles';
 
 export interface InvestimentCardProps {
@@ -6,16 +9,25 @@ export interface InvestimentCardProps {
   objetivo: string;
   saldoTotal: string;
   indicadorCarencia: string;
-  acoes: AcoesProps;
-}
-interface AcoesProps {
-  id: string;
 }
 
 export function InvestimentCard({item}) {
-  const {nome, objetivo, saldoTotal}: InvestimentCardProps = item;
+  const {nome, objetivo, saldoTotal, indicadorCarencia}: InvestimentCardProps =
+    item;
+  const navigation = useNavigation();
+
+  const handleListAcess = useCallback(
+    (investiment, carencia) => {
+      if (carencia !== 'N') {
+        return;
+      }
+      navigation.navigate('Overview', investiment);
+    },
+    [navigation],
+  );
+
   return (
-    <S.Container>
+    <S.Container onPress={() => handleListAcess(item, indicadorCarencia)}>
       <S.ContainerInfo>
         <S.ContainerSpaceBetween>
           <S.TitleText>{nome}</S.TitleText>
