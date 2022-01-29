@@ -28,7 +28,6 @@ export const TitleText = styled.Text`
   color: #333333;
 `;
 export const SubTitleText = styled.Text`
-  font-family: 'Nunito';
   font-size: 14px;
   color: rgba(0, 0, 0, 0.65);
 `;
