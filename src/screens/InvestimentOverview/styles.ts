@@ -40,12 +40,16 @@ export const RowWrapper = styled.View`
 `;
 export const TotalPayment = styled.View`
   width: 100%;
-  height: 40px;
+  min-height: 40px;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 5px 15px;
+`;
+export const TotalPaymentRow = styled.View`
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 0 15px;
 `;
 export const Footer = styled.TouchableOpacity`
   flex-direction: row;
@@ -73,4 +77,16 @@ export const TitleText = styled.Text`
 `;
 export const SubTitleText = styled(TitleText)`
   color: rgba(0, 0, 0, 0.6);
+`;
+export const WarningText = styled.Text`
+  font-weight: 700;
+  font-size: 12px;
+
+  color: #ff7377;
+`;
+export const RedLine = styled.View`
+  width: 100%;
+
+  height: 0.8px;
+  background-color: #ff7377;
 `;

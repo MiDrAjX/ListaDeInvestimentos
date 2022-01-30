@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {useRoute, RouteProp} from '@react-navigation/native';
 
@@ -28,6 +28,21 @@ function InvestimentOverview() {
   const route = useRoute<RouteProp<InvestimentProps, 'Overview'>>();
   const item = route.params;
   const [moneyMask, setMoneyMask] = useState({});
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorRedeem, setErrorRedeem] = useState(false);
+
+  function closingModal() {
+    setTransactions([]);
+    setErrorModal(false);
+    // eslint-disable-next-line no-extra-boolean-cast
+    if (!!errorModal) {
+      setVisibleModal(false);
+      return;
+    }
+    setMoneyMask({});
+    setStocksValue({});
+    setVisibleModal(false);
+  }
 
   const handleStocksValue = useCallback(
     (stock: string, value: any, maxValue: number) => {
@@ -52,6 +67,7 @@ function InvestimentOverview() {
         currency: 'BRL',
       });
       setMoneyMask({...moneyMask, [stock]: String(formattedmoney)});
+      setErrorRedeem(false);
       handleStocksValue(stock, value, maxValue);
     },
     [moneyMask, handleStocksValue],
@@ -82,19 +98,29 @@ function InvestimentOverview() {
   }, [stocksValue]);
 
   function transaction() {
-    Object.keys(stocksValue).map(stock => {
-      const transação = {
-        nome: stock,
-        valor: stocksValue[stock],
-        maximo: Number(
-          stocksMaxValue[stock].replace(/\./, '').replace(/,/, '.'),
-        ),
-      };
-      setTransactions(oldvalue => [...oldvalue, transação]);
-    });
-
-    return setVisibleModal(true);
+    if (valueRedeem() !== '0,00') {
+      Object.keys(stocksValue).map(stock => {
+        const transação = {
+          nome: stock,
+          valor: stocksValue[stock],
+          maximo: Number(
+            stocksMaxValue[stock].replace(/\./, '').replace(/,/, '.'),
+          ),
+        };
+        setTransactions(oldvalue => [...oldvalue, transação]);
+      });
+      return setVisibleModal(true);
+    }
+    return setErrorRedeem(true);
   }
+
+  useEffect(() => {
+    transactions.map((stock: {maximo: number; valor: number; nome: any}) => {
+      if (stock.maximo < stock.valor) {
+        setErrorModal(true);
+      }
+    });
+  }, [transactions]);
 
   return (
     <>
@@ -129,19 +155,30 @@ function InvestimentOverview() {
         ))}
 
         <S.TotalPayment>
-          <S.TitleText>Valor total a resgatar</S.TitleText>
-          <S.SubTitleText>R$ {valueRedeem()}</S.SubTitleText>
+          <S.TotalPaymentRow>
+            <S.TitleText>Valor total a resgatar</S.TitleText>
+            <S.SubTitleText>R$ {valueRedeem()}</S.SubTitleText>
+          </S.TotalPaymentRow>
+          {errorRedeem && (
+            <>
+              <S.WarningText>
+                Informe algum valor para realizar o resgate
+              </S.WarningText>
+              <S.RedLine />
+            </>
+          )}
         </S.TotalPayment>
+
         <S.Footer onPress={transaction}>
           <S.FooterText>CONFIRMAR RESGATE</S.FooterText>
         </S.Footer>
       </S.ContainerList>
       {visibleModal && (
         <ModalTransaction
-          closeModal={() => setVisibleModal(false)}
+          closingModal={closingModal}
           visible={visibleModal}
           transactions={transactions}
-          eraseTrasactions={setTransactions}
+          errorModal={errorModal}
         />
       )}
     </>
