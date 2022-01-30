@@ -18,7 +18,7 @@ export const HeaderText = styled.Text`
   font-weight: 600;
   font-size: 14px;
   line-height: 19px;
-  color: #333;
+  color: rgba(0, 0, 0, 0.55);
   margin: 20px 0 10px 10px;
 `;
 export const HeaderWrapper = styled.View`
@@ -46,7 +46,6 @@ export const TotalPayment = styled.View`
   align-items: center;
   background-color: #ffffff;
   padding: 0 15px;
-  margin-top: 10px;
 `;
 export const Footer = styled.TouchableOpacity`
   flex-direction: row;
@@ -56,7 +55,7 @@ export const Footer = styled.TouchableOpacity`
   height: 56px;
   background-color: #f9dd16;
 
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 export const FooterText = styled.Text`
   margin-left: 16px;
@@ -70,8 +69,8 @@ export const TitleText = styled.Text`
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #333333;
+  color: #000;
 `;
 export const SubTitleText = styled(TitleText)`
-  color: rgba(0, 0, 0, 0.65);
+  color: rgba(0, 0, 0, 0.6);
 `;

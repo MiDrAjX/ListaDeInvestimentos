@@ -1,18 +1,17 @@
-import React, {useState} from 'react';
-import {Text} from 'react-native';
+import React, {useCallback, useState} from 'react';
 
 import {useRoute, RouteProp} from '@react-navigation/native';
 
 import * as S from './styles';
 import StocksCard from './components/StocksCard';
-import ModalDefault from '../../components/Modal';
+import ModalTransaction from '../../components/ModalTransaction';
 
-interface StocksProps {
+export interface StocksProps {
   id: string;
   percentual: number;
 }
 
-type InvestimentProps = {
+export type InvestimentProps = {
   Overview: {
     nome: string;
     saldoTotal: string;
@@ -21,17 +20,64 @@ type InvestimentProps = {
 };
 
 function InvestimentOverview() {
+  const [stocksValue, setStocksValue] = useState({});
+  const [stocksMaxValue, setStocksMaxValue] = useState({});
+  const [transactions, setTransactions] = useState([]);
   const [visibleModal, setVisibleModal] = useState(false);
   const route = useRoute<RouteProp<InvestimentProps, 'Overview'>>();
   const item = route.params;
 
-  function accumulatedBalance(numb: number, str: string) {
+  const accumulatedBalance = useCallback((numb: number, str: string) => {
     const value =
       (numb / 100) * Number(str.replace(/\./, '').replace(/,/, '.'));
     return Number(value).toLocaleString('pt-br', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  }, []);
+
+  const handleStocksValue = useCallback(
+    (stock: string, value: number, maxValue: number) => {
+      setStocksMaxValue({
+        ...stocksMaxValue,
+        [stock]: maxValue,
+      });
+      return setStocksValue({
+        ...stocksValue,
+        [stock]: value / 100,
+      });
+    },
+    [stocksValue, stocksMaxValue],
+  );
+
+  const valueRedeem = useCallback(() => {
+    const value = Object.values(stocksValue);
+
+    const total = value.reduce(
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      (total, numero) => Number(total) + Number(numero),
+      0,
+    );
+
+    return Number(total).toLocaleString('pt-br', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }, [stocksValue]);
+
+  function transaction() {
+    Object.keys(stocksValue).map(stock => {
+      const transação = {
+        nome: stock,
+        valor: stocksValue[stock],
+        maximo: Number(
+          stocksMaxValue[stock].replace(/\./, '').replace(/,/, '.'),
+        ),
+      };
+      setTransactions(oldvalue => [...oldvalue, transação]);
+    });
+
+    return setVisibleModal(true);
   }
 
   return (
@@ -48,35 +94,39 @@ function InvestimentOverview() {
         </S.RowWrapper>
 
         <S.RowWrapper>
-          <Text>Salto total disponivel</Text>
-          <Text>R$ {item.saldoTotal}</Text>
+          <S.TitleText>Salto total disponivel</S.TitleText>
+          <S.SubTitleText>R$ {item.saldoTotal}</S.SubTitleText>
         </S.RowWrapper>
         <S.HeaderWrapper>
           <S.HeaderText>RESGATE DO SEU JEITO</S.HeaderText>
         </S.HeaderWrapper>
+
         {item.acoes.map(stock => (
           <StocksCard
             stock={stock}
             saldo={accumulatedBalance(stock.percentual, item.saldoTotal)}
             key={stock.id}
+            handleValueStock={handleStocksValue}
+            valueStock={stocksValue}
           />
         ))}
 
         <S.TotalPayment>
-          <Text>Valor total a resgatar</Text>
-          <Text>R$ 12,00</Text>
+          <S.TitleText>Valor total a resgatar</S.TitleText>
+          <S.SubTitleText>R$ {valueRedeem()}</S.SubTitleText>
         </S.TotalPayment>
-        <S.Footer
-          onPress={() => {
-            setVisibleModal(true);
-          }}>
+        <S.Footer onPress={transaction}>
           <S.FooterText>CONFIRMAR RESGATE</S.FooterText>
         </S.Footer>
       </S.ContainerList>
-      <ModalDefault
-        closeModal={() => setVisibleModal(false)}
-        visible={visibleModal}
-      />
+      {visibleModal && (
+        <ModalTransaction
+          closeModal={() => setVisibleModal(false)}
+          visible={visibleModal}
+          transactions={transactions}
+          eraseTrasactions={setTransactions}
+        />
+      )}
     </>
   );
 }
