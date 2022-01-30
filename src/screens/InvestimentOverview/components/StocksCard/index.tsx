@@ -1,21 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {Keyboard} from 'react-native';
 
 import * as S from './styles';
 
-function StocksCard({stock, saldo, handleValueStock, valueStock}) {
-  const [money, setMoney] = useState('');
+function StocksCard({stock, saldo, valueStock, formatMoney, showMoney}) {
   const value = Number(saldo.replace(/\./, '').replace(/,/, '.'));
 
-  function formattedMoney(e: string) {
-    const onlyNumbers = e.replace(/\D/g, '');
-    const formattedmoney = (Number(onlyNumbers) / 100).toLocaleString('pt-br', {
-      minimumFractionDigits: 2,
-    });
-    setMoney(String(formattedmoney));
-    handleValueStock(stock.nome, onlyNumbers, saldo);
-  }
   return (
     <S.Wrapper>
       <S.StockWrapper>
@@ -31,11 +22,11 @@ function StocksCard({stock, saldo, handleValueStock, valueStock}) {
         <S.Input
           placeholder="R$ 0,00"
           keyboardType="numeric"
-          onChangeText={e => formattedMoney(e)}
-          value={money}
+          onChangeText={e => formatMoney(e, stock.nome, saldo)}
+          value={showMoney}
           onBlur={Keyboard.dismiss}
         />
-        {Number(value) < Number(valueStock[stock.nome]) && (
+        {value < Number(valueStock) && (
           <S.WarningWrapper>
             <S.WarningText>
               Valor não pode ser maior que R$ {saldo}
@@ -45,7 +36,7 @@ function StocksCard({stock, saldo, handleValueStock, valueStock}) {
         )}
       </S.InputWrapper>
 
-      {!(Number(value) < Number(valueStock[stock.nome])) && <S.BlankView />}
+      {!(value < Number(valueStock)) && <S.BlankView />}
     </S.Wrapper>
   );
 }

@@ -7,6 +7,7 @@ import StocksCard from './components/StocksCard';
 import ModalTransaction from './components/ModalTransaction';
 
 export interface StocksProps {
+  nome: string;
   id: string;
   percentual: number;
 }
@@ -26,18 +27,10 @@ function InvestimentOverview() {
   const [visibleModal, setVisibleModal] = useState(false);
   const route = useRoute<RouteProp<InvestimentProps, 'Overview'>>();
   const item = route.params;
-
-  const accumulatedBalance = useCallback((numb: number, str: string) => {
-    const value =
-      (numb / 100) * Number(str.replace(/\./, '').replace(/,/, '.'));
-    return Number(value).toLocaleString('pt-br', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  }, []);
+  const [moneyMask, setMoneyMask] = useState({});
 
   const handleStocksValue = useCallback(
-    (stock: string, value: number, maxValue: number) => {
+    (stock: string, value: any, maxValue: number) => {
       setStocksMaxValue({
         ...stocksMaxValue,
         [stock]: maxValue,
@@ -49,6 +42,29 @@ function InvestimentOverview() {
     },
     [stocksValue, stocksMaxValue],
   );
+
+  const formattedMoney = useCallback(
+    (e: string, stock: string, maxValue: number) => {
+      const value = e.replace(/\D/g, '');
+      const formattedmoney = (Number(value) / 100).toLocaleString('pt-br', {
+        minimumFractionDigits: 2,
+        style: 'currency',
+        currency: 'BRL',
+      });
+      setMoneyMask({...moneyMask, [stock]: String(formattedmoney)});
+      handleStocksValue(stock, value, maxValue);
+    },
+    [moneyMask, handleStocksValue],
+  );
+
+  const accumulatedBalance = useCallback((numb: number, str: string) => {
+    const value =
+      (numb / 100) * Number(str.replace(/\./, '').replace(/,/, '.'));
+    return Number(value).toLocaleString('pt-br', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }, []);
 
   const valueRedeem = useCallback(() => {
     const value = Object.values(stocksValue);
@@ -106,8 +122,9 @@ function InvestimentOverview() {
             stock={stock}
             saldo={accumulatedBalance(stock.percentual, item.saldoTotal)}
             key={stock.id}
-            handleValueStock={handleStocksValue}
-            valueStock={stocksValue}
+            valueStock={stocksValue[stock.nome]}
+            formatMoney={formattedMoney}
+            showMoney={moneyMask[stock.nome]}
           />
         ))}
 
