@@ -17,17 +17,16 @@ export function InvestimentCard({item}) {
   const navigation = useNavigation();
 
   const handleListAcess = useCallback(
-    (investiment, carencia) => {
-      if (carencia !== 'N') {
-        return;
-      }
+    investiment => {
       navigation.navigate('Overview', investiment);
     },
     [navigation],
   );
 
   return (
-    <S.Container onPress={() => handleListAcess(item, indicadorCarencia)}>
+    <S.Container
+      onPress={() => handleListAcess(item)}
+      disabled={indicadorCarencia === 'S'}>
       <S.ContainerInfo>
         <S.ContainerSpaceBetween>
           <S.TitleText>{nome}</S.TitleText>
