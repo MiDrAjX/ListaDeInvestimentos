@@ -4,7 +4,7 @@ import {useRoute, RouteProp} from '@react-navigation/native';
 
 import * as S from './styles';
 import StocksCard from './components/StocksCard';
-import ModalTransaction from '../../components/ModalTransaction';
+import ModalTransaction from './components/ModalTransaction';
 
 export interface StocksProps {
   id: string;
