@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const TransparentContainer = styled.Pressable`
+export const TransparentContainer = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -12,25 +12,32 @@ export const TransparentContainer = styled.Pressable`
 export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
-  height: 250px;
+  min-height: 250px;
   width: 100%;
   background-color: #ffffff;
   padding: 15px 0 0;
 `;
 export const ContainerText = styled.View`
-  align-items: center;
-  padding: 10px 15px;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  min-height: 200px;
+  padding: 5px 15px;
 `;
 
 export const TitleText = styled.Text`
-  font-weight: 600;
-  font-size: 28px;
-  color: #333;
+  align-self: center;
+  font-weight: 900;
+  font-size: 30px;
+  color: darkblue;
   margin-bottom: 10px;
 `;
 export const SubTitleText = styled.Text`
-  font-family: 'Nunito-Regular';
   font-size: 18px;
+  color: darkblue;
+`;
+export const ErrorText = styled.Text`
+  font-size: 13px;
+  color: darkblue;
 `;
 
 export const Mod = styled.Modal``;
