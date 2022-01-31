@@ -7,15 +7,15 @@
 
 <div>
 <p align="center">
-<img src=".github/telaListagem.PNG" alt="Print da tela que lista investimentos">
-<img src=".github/telaOverview.PNG" alt="Print da tela de overview">
+<img src=".github/telaListagem.png" alt="Print da tela que lista investimentos">
+<img src=".github/telaOverview.png" alt="Print da tela de overview">
 </p>
 <p align="center">
-<img src=".github/telaOverview2.PNG" alt="Print da tela de overview com o botão">
+<img src=".github/telaOverview2.png" alt="Print da tela de overview com o botão">
 </p>
 <p align="center">
-<img src=".github/modalSucesso.PNG" alt="Print da tela com o modal de sucesso">
-<img src=".github/modalErro.PNG" alt="Print da tela com o modal de erro">
+<img src=".github/modalSucesso.png" alt="Print da tela com o modal de sucesso">
+<img src=".github/modalErro.png" alt="Print da tela com o modal de erro">
 </p>
 </div>
 
@@ -61,7 +61,7 @@ O aplicativo vai estar disponível na tela do seu dispositivo.
 <div>
 <h3 align="center">Card de investimento que não possui a carencia necessaria fica disabled</h3>
 <p align="center">
-<img src=".github/telaListagem.PNG" alt="Print da tela que lista investimentos">
+<img src=".github/telaListagem.png" alt="Print da tela que lista investimentos">
 </p>
 </div>
 
@@ -69,14 +69,14 @@ O aplicativo vai estar disponível na tela do seu dispositivo.
 
 <div>
 <p align="center">
-<img src=".github/telaOverview.PNG" alt="Print da tela de overview">
-<img src=".github/telaOverview2.PNG" alt="Print da tela de overview">
+<img src=".github/telaOverview.png" alt="Print da tela de overview">
+<img src=".github/telaOverview2.png" alt="Print da tela de overview">
 </p>
 </div>
 <div>
 <p align="center">
-<img src=".github/listaOverviewErro.PNG" alt="Print da tela de overview com erros">
-<img src=".github/listaOverviewErro2.PNG" alt="Print da tela de overview com erro">
+<img src=".github/listaOverviewErro.png" alt="Print da tela de overview com erros">
+<img src=".github/listaOverviewErro2.png" alt="Print da tela de overview com erro">
 </p>
 </div>
 
@@ -84,8 +84,8 @@ O aplicativo vai estar disponível na tela do seu dispositivo.
 
 <div>
 <p align="center">
-<img src=".github/modalSucesso.PNG" alt="Print da tela de overview com erros">
-<img src=".github/modalErro.PNG" alt="Print da tela de overview com erro">
+<img src=".github/modalSucesso.png" alt="Print da tela de overview com erros">
+<img src=".github/modalErro.png" alt="Print da tela de overview com erro">
 </p>
 </div>
 
