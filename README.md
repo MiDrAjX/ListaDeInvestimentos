@@ -45,6 +45,9 @@ $ git clone https://github.com/MiDrAjX/ListaDeInvestimentos.git && cd ListaDeInv
 # Instale as dependencias
 $ yarn || npm install
 
+# Rode os testes automatizados dos components
+$ yarn test || npm test
+
 # Inicie o Metro
 $ yarn start || npm start
 
