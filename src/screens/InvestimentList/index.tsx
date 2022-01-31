@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
-import api from '../../services/api';
+import Investiment from '../../services/Investiment';
+
 import {InvestimentCard, InvestimentCardProps} from './InvestimentCard';
 
 import {StocksProps} from '../InvestimentOverview/index';
@@ -18,13 +19,13 @@ export interface DataListProps extends InvestimentCardProps {
 function InvestimentList() {
   const [investiments, setInvestiments] = useState<DataListProps[]>([]);
   const getInvestiments = useCallback(async () => {
-    const {data} = await api.get('/v3/ca4ec77d-b941-4477-8a7f-95d4daf7a653');
+    const {ok, data} = await Investiment();
 
-    if (!data) {
+    if (!ok) {
       return;
     }
-    const investimentFormatted: DataListProps[] =
-      data.response.data.listaInvestimentos.map((item: DataListProps) => {
+    const investimentFormatted: DataListProps[] = data.map(
+      (item: DataListProps) => {
         const saldoTotal = Number(item.saldoTotal).toLocaleString('pt-br', {
           minimumFractionDigits: 2,
         });
@@ -37,7 +38,8 @@ function InvestimentList() {
           indicadorCarencia: item.indicadorCarencia,
           acoes: item.acoes,
         };
-      });
+      },
+    );
     setInvestiments(investimentFormatted);
   }, []);
 
