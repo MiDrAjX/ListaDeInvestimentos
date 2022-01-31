@@ -1,6 +1,4 @@
-import React, {useCallback} from 'react';
-
-import {useNavigation} from '@react-navigation/core';
+import React from 'react';
 
 import * as S from './styles';
 
@@ -11,17 +9,9 @@ export interface InvestimentCardProps {
   indicadorCarencia: string;
 }
 
-export function InvestimentCard({item}) {
+export function InvestimentCard({item, handleListAcess}) {
   const {nome, objetivo, saldoTotal, indicadorCarencia}: InvestimentCardProps =
     item;
-  const navigation = useNavigation();
-
-  const handleListAcess = useCallback(
-    investiment => {
-      navigation.navigate('Overview', investiment);
-    },
-    [navigation],
-  );
 
   return (
     <S.Container
@@ -29,10 +19,10 @@ export function InvestimentCard({item}) {
       disabled={indicadorCarencia === 'S'}>
       <S.ContainerInfo>
         <S.ContainerSpaceBetween>
-          <S.TitleText>{nome}</S.TitleText>
-          <S.TitleText>{saldoTotal}</S.TitleText>
+          <S.TitleText testID="name">{nome}</S.TitleText>
+          <S.TitleText testID="total-balance">{saldoTotal}</S.TitleText>
         </S.ContainerSpaceBetween>
-        <S.SubTitleText>{objetivo}</S.SubTitleText>
+        <S.SubTitleText testID="objective">{objetivo}</S.SubTitleText>
       </S.ContainerInfo>
     </S.Container>
   );

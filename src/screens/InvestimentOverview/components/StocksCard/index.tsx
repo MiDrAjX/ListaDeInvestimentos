@@ -11,7 +11,7 @@ function StocksCard({stock, saldo, valueStock, formatMoney, showMoney}) {
     <S.Wrapper>
       <S.StockWrapper>
         <S.TitleText>Ação</S.TitleText>
-        <S.SubTitleText>{stock.nome}</S.SubTitleText>
+        <S.SubTitleText testID="stock-name">{stock.nome}</S.SubTitleText>
       </S.StockWrapper>
       <S.StockWrapper>
         <S.TitleText>Saldo acumulado</S.TitleText>
@@ -20,6 +20,7 @@ function StocksCard({stock, saldo, valueStock, formatMoney, showMoney}) {
       <S.InputWrapper>
         <S.InputText>Valor a resgatar</S.InputText>
         <S.Input
+          testID="input-money"
           placeholder="R$ 0,00"
           keyboardType="numeric"
           onChangeText={e => formatMoney(e, stock.nome, saldo)}
@@ -28,7 +29,7 @@ function StocksCard({stock, saldo, valueStock, formatMoney, showMoney}) {
         />
         {value < Number(valueStock) && (
           <S.WarningWrapper>
-            <S.WarningText>
+            <S.WarningText testID="text-error">
               Valor não pode ser maior que R$ {saldo}
             </S.WarningText>
             <S.RedLine />

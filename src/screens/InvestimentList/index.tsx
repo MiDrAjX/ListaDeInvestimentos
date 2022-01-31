@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
+import {useNavigation} from '@react-navigation/core';
+
 import Investiment from '../../services/Investiment';
 
 import {InvestimentCard, InvestimentCardProps} from './InvestimentCard';
@@ -51,6 +53,14 @@ function InvestimentList() {
       </S.HeaderWrapper>
     );
   }, []);
+  const navigation = useNavigation();
+
+  const handleListAcess = useCallback(
+    investiment => {
+      navigation.navigate('Overview', investiment);
+    },
+    [navigation],
+  );
 
   useEffect(() => {
     getInvestiments();
@@ -64,7 +74,7 @@ function InvestimentList() {
         data={investiments} //perdão não sei resolver esse problema de tipagem T-T
         keyExtractor={(item: DataListProps) => item.id}
         renderItem={({item}: ListRenderItemInfo<DataListProps>) => (
-          <InvestimentCard item={item} />
+          <InvestimentCard item={item} handleListAcess={handleListAcess} />
         )}
         ListHeaderComponent={renderHeader}
         ItemSeparatorComponent={() => <S.Separator />}
